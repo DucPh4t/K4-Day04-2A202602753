@@ -65,7 +65,15 @@ tools:
               meeting_room,
             ]
           default: "all"
-          description: "Nhóm hướng dẫn cụ thể cần lọc. Nếu câu hỏi đã chỉ rõ chủ đề (ví dụ: email, wifi, vpn), hãy chọn đúng category tương ứng."
+          description: >-
+            Nhóm hướng dẫn cụ thể cần lọc. Ánh xạ danh mục chuẩn:
+            - Outlook, hòm thư, thư điện tử, email client -> 'email' (tuyệt đối không chọn 'software').
+            - Wi-Fi, mạng không dây, chứng chỉ Wi-Fi -> 'wifi'.
+            - VPN, kết nối từ xa -> 'vpn'.
+            - Máy in, in ấn -> 'printing'.
+            - Tài khoản, mật khẩu, đăng nhập -> 'account'.
+            - Phần cứng, linh kiện vật lý -> 'hardware'.
+            - Ứng dụng phần mềm chung khác -> 'software'.
         top_k:
           type: integer
           default: 3
