@@ -3,7 +3,7 @@
 ## Team
 
 - Team:
-- Members:
+- Members: Chử Trần Phương Nam
 - Provider/model:
 
 # PHẦN A — Giới thiệu agent
