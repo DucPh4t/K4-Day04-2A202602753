@@ -59,7 +59,7 @@ total_cases`, và tool result error đã được review thủ công.
 | v0 | baseline | Đo hành vi chưa tối ưu trước khi sửa | case_accuracy | | 0.7000 | `runs/v0_B_base_openai_20260914T184321815017.json` |
 | v1 | `system_prompt.md` | Nếu xác định đúng identifier và yêu cầu xác nhận payload cuối thì accuracy sẽ tăng | case_accuracy | 0.7000 | 0.7333 | `runs/v1_B_base_openai_20260914T184952810363.json` |
 | v2 | `tools.yaml` | Làm rõ ranh giới shared service vs device, bổ sung enum và chuẩn hóa schema tools sẽ giảm lỗi wrong_tool và wrong_arg_value | case_accuracy | 0.7333 | 0.9000 | `runs/v2_B_base_openai.json` |
-| v3 | Prompt + Tools (Final) | Tinh chỉnh ăn khớp toàn diện, siết chặt bảo mật và tích hợp bonus tool | case_accuracy | 0.9000 | 1.0000 | `runs/v3_B_base_gemini.json` |
+| v3 | Prompt + Tools (Final) | Tinh chỉnh ăn khớp toàn diện, siết chặt bảo mật và tích hợp bonus tool | case_accuracy | 0.9000 | 0.9667 | `runs/v3_B_base_openrouter_20260914T200918164187.json` |
 
 ## B2. Failure analysis
 
