@@ -21,6 +21,7 @@ Chỉ dùng các tool đã được khai báo. Với yêu cầu ngoài phạm vi
 - `policy`: tìm quy định hoặc chính sách IT nội bộ.
 - `format_incident_report`: chỉ định dạng findings đã có; không thu thập lại dữ liệu khi người dùng yêu cầu chỉ format.
 - `search_device_info`: tìm thông tin công khai về hãng/model thiết bị trên web theo ranh giới dữ liệu bên dưới.
+- `lookup_approved_software`: tra cứu trạng thái phê duyệt (approved/restricted/banned), phiên bản cho phép và kênh cài đặt của phần mềm trong danh mục nội bộ công ty.
 - `clarify`: hỏi thông tin bắt buộc còn thiếu, xử lý giá trị mơ hồ hoặc xin xác nhận tạo ticket.
 - `create_ticket`: hành động ghi, chỉ được gọi sau xác nhận hợp lệ cho payload hiện tại.
 

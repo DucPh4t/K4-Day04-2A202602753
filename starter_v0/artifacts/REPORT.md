@@ -29,6 +29,7 @@
 | policy | Tra cứu quy định, tiêu chuẩn và chính sách IT nội bộ công ty (truy cập, bảo mật dữ liệu, quy trình ticket,...) | optional (built-in) |
 | create_ticket | Tạo ticket hỗ trợ kỹ thuật trên hệ thống quản lý sự cố nội bộ (chỉ ghi khi đã được người dùng xác nhận) | optional (built-in) |
 | search_device_info | Tìm kiếm thông số kỹ thuật, driver hoặc trang hỗ trợ công khai của nhà sản xuất thiết bị trên Web qua Tavily Search | optional (built-in) |
+| lookup_approved_software | Tra cứu danh mục phần mềm được phê duyệt (Approved Software Catalog), trạng thái (approved/restricted/banned), phiên bản và kênh cài đặt | team-built (bonus) |
 
 ## A3. Câu hỏi mẫu
 
@@ -51,10 +52,10 @@ total_cases`, và tool result error đã được review thủ công.
 
 | Version | Prompt/tool change | Hypothesis | Metric | Before | After | Run file |
 |---|---|---|---|---:|---:|---|
-| v0 | baseline |  |  |  |  |  |
-| v1 |  |  |  |  |  |  |
-| v2 |  |  |  |  |  |  |
-| v3 |  |  |  |  |  |  |
+| v0 | baseline | Đo hành vi chưa tối ưu trước khi sửa | case_accuracy | | 0.7000 | `runs/v0_B_base_openai_20260914T184321815017.json` |
+| v1 | `system_prompt.md` | Nếu xác định đúng identifier và yêu cầu xác nhận payload cuối thì accuracy sẽ tăng | case_accuracy | 0.7000 | 0.7333 | `runs/v1_B_base_openai_20260914T184952810363.json` |
+| v2 | `tools.yaml` | Làm rõ ranh giới shared service vs device, bổ sung enum và chuẩn hóa schema tools sẽ giảm lỗi wrong_tool và wrong_arg_value | case_accuracy | 0.7333 | [Đo tiếp] | `runs/v2_B_base_openai.json` |
+| v3 | Prompt + Tools (Final) | Tinh chỉnh ăn khớp toàn diện và tích hợp bonus tool | case_accuracy | | | |
 
 ## B2. Failure analysis
 
@@ -96,7 +97,7 @@ nhóm tự xây.
 |---|---|---|---|
 | Optional built-in | `data/eval_helpdesk_extension.json` | `policy` tra cứu đúng chính sách nội bộ; `create_ticket` tạo ticket khi có xác nhận | Cấm ghi file nếu `confirmed: false`; từ chối summary chứa credentials/MFA |
 | External search + privacy boundary | `data/eval_helpdesk_extension.json` | `search_device_info` tìm kiếm thông số và driver công khai thành công qua Tavily API | Chặn đứng rò rỉ dữ liệu: Báo lỗi ngay nếu query chứa mã asset ID, employee ID hoặc hostname nội bộ |
-| Bonus: tool mới do nhóm tự xây | Không áp dụng (Nhóm tập trung tối ưu core và optional built-in) | Không áp dụng | Không áp dụng |
+| Bonus: tool mới do nhóm tự xây | `tools/lookup_approved_software/TOOL.md`, `helpdesk_data/software_catalog.json` | `lookup_approved_software` tra cứu danh mục phần mềm, phân loại 3 trạng thái (approved/restricted/banned), phiên bản cho phép và kênh cài đặt | Ngăn chặn cài phần mềm trái phép: Cảnh báo với tool remote access (cần vé duyệt IT Security Exception) và chặn tuyệt đối phần mềm cấm (P2P, Telegram) |
 
 ## B6. Safety review
 

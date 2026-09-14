@@ -155,7 +155,7 @@ tools:
           type: string
           default: "IT incident"
           description: "Tiêu đề của báo cáo sự cố."
-      required: [findings, template]
+      required: [template]
 
   # ---------------- Optional/advanced tools ----------------
   - name: search_device_info
@@ -244,3 +244,20 @@ tools:
           default: false
           description: "Cờ xác nhận từ người dùng. Bắt buộc phải là true để tool thực hiện ghi ticket; nếu false tool sẽ từ chối tạo ticket."
       required: [summary]
+
+  # ---------------- Team Bonus tools ----------------
+  - name: lookup_approved_software
+    description: >-
+      Tra cứu danh mục phần mềm được phê duyệt (Approved Software Catalog) của công ty.
+      Nhận vào tên phần mềm và trả về trạng thái phê duyệt ('approved', 'restricted', 'banned'),
+      phiên bản được phép sử dụng, kênh cài đặt (Self-Service Portal hay cần vé ngoại lệ an toàn thông tin),
+      và các ghi chú chính sách bảo mật liên quan.
+      Tool này KHÔNG tải xuống, KHÔNG cài đặt phần mềm và KHÔNG cấp quyền quản trị trên thiết bị.
+    parameters:
+      type: object
+      properties:
+        software_name:
+          type: string
+          description: "Tên phần mềm hoặc ứng dụng cần tra cứu (ví dụ: 'Zoom', 'Docker Desktop', 'AnyDesk', 'Slack')."
+      required: [software_name]
+
