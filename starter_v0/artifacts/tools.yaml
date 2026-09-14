@@ -1,6 +1,3 @@
-# Day 04 Lab — IT Helpdesk Agent Tool Declarations
-# Improved tool declarations with explicit capability boundaries, parameter constraints, and security guardrails.
-
 tools:
   # ---------------- Core tools ----------------
   - name: clarify
@@ -10,6 +7,9 @@ tools:
       (2) Cần làm rõ lựa chọn giữa các môi trường (ví dụ: production vs staging);
       (3) Xin xác nhận rõ ràng (confirmation) trước khi thực hiện hành động làm thay đổi trạng thái (như tạo ticket).
       KHÔNG dùng tool này khi thông tin đã đầy đủ hoặc câu hỏi nằm ngoài phạm vi hỗ trợ IT.
+      KHÔNG dùng yes_no để hỏi người dùng có muốn thực hiện một thao tác chỉ đọc khi arguments đã đầy đủ.
+      Với yêu cầu tạo ticket, một mô tả sự cố dễ hiểu đã là summary hợp lệ dù không có nhãn 'summary'.
+      Nếu mô tả sự cố, priority và asset liên quan đã rõ, phải hỏi xác nhận bằng yes_no; không hỏi lại summary bằng text.
     parameters:
       type: object
       properties:
@@ -51,7 +51,19 @@ tools:
           description: "Từ khóa hoặc mô tả sự cố kỹ thuật cần tìm hướng dẫn (ví dụ: 'VPN macOS certificate', 'cài đặt Wi-Fi', 'Outlook profile')."
         category:
           type: string
-          enum: [all, vpn, email, wifi, printing, account, security, hardware, software, meeting_room]
+          enum:
+            [
+              all,
+              vpn,
+              email,
+              wifi,
+              printing,
+              account,
+              security,
+              hardware,
+              software,
+              meeting_room,
+            ]
           default: "all"
           description: "Nhóm hướng dẫn cụ thể cần lọc. Nếu câu hỏi đã chỉ rõ chủ đề (ví dụ: email, wifi, vpn), hãy chọn đúng category tương ứng."
         top_k:
@@ -85,6 +97,10 @@ tools:
       Bắt buộc phải có asset_id hợp lệ (ví dụ: LT-204, LT-240, DT-031, PR-101).
       Nếu người dùng chưa cung cấp mã tài sản, KHÔNG được tự đoán mò mà phải gọi clarify để hỏi.
       KHÔNG dùng để kiểm tra trạng thái dịch vụ dùng chung toàn công ty (hãy dùng check_service_status).
+      Đây là thao tác CHỈ ĐỌC và không cần xác nhận. Khi người dùng yêu cầu so sánh nhiều asset ID đã nêu rõ,
+      gọi inspect_device riêng một lần cho mỗi asset; không gọi clarify và không gộp nhiều ID vào một argument.
+      Luôn truyền tường minh tham số check. Nếu request nêu một subsystem, dùng check cụ thể cho subsystem đó
+      kể cả khi request đồng thời yêu cầu status hoặc KB; chỉ dùng 'all' cho kiểm tra tổng quát hoặc khi không nêu subsystem.
     parameters:
       type: object
       properties:
@@ -102,8 +118,9 @@ tools:
             - 'security': Trạng thái mã hóa ổ đĩa, bản vá bảo mật, agent bảo vệ.
             - 'hardware': Tình trạng phần cứng, pin, ổ cứng SMART.
             - 'software': Phiên bản ứng dụng cài đặt, driver.
-            - 'all': Kiểm tra tổng thể tất cả các hạng mục trên.
-      required: [asset_id]
+            - 'all': Kiểm tra tổng thể tất cả các hạng mục; chỉ dùng khi người dùng yêu cầu tổng thể/toàn bộ hoặc không chỉ rõ hạng mục.
+            Khi một vấn đề VPN được gắn với asset, chọn 'vpn' thay vì 'all', kể cả trong yêu cầu có nhiều tool.
+      required: [asset_id, check]
 
   - name: lookup_user
     description: >-
@@ -199,7 +216,16 @@ tools:
           description: "Nội dung câu hỏi hoặc từ khóa chính sách cần tra cứu."
         policy_area:
           type: string
-          enum: [all, access_control, data_privacy, external_tools, incident_response, service_operations, ticketing]
+          enum:
+            [
+              all,
+              access_control,
+              data_privacy,
+              external_tools,
+              incident_response,
+              service_operations,
+              ticketing,
+            ]
           default: "all"
           description: >-
             Lĩnh vực chính sách cụ thể cần tra cứu:
@@ -222,6 +248,9 @@ tools:
       ĐÂY LÀ HÀNH ĐỘNG CÓ TÁC DỤNG PHỤ (GHI DỮ LIỆU LOCAL).
       CHỈ ĐƯỢC PHÉP GỌI khi người dùng ĐÃ XÁC NHẬN RÕ RÀNG (explicit confirmation) và tham số 'confirmed' được đặt là true.
       Nếu người dùng chưa xác nhận rõ ràng, KHÔNG ĐƯỢC gọi tool này mà phải gọi clarify với response_type='yes_no' để xin xác nhận trước.
+      Mô tả vấn đề hoặc triệu chứng do người dùng cung cấp đã là summary hợp lệ dù không có nhãn 'summary';
+      không yêu cầu viết lại nếu đã hiểu loại sự cố. Nếu summary, priority và asset liên quan đã đủ nhưng chưa xác nhận,
+      gọi clarify yes_no với payload hiện tại, không gọi clarify text để hỏi thêm summary.
       TUYỆT ĐỐI KHÔNG đưa mật khẩu, token, OTP/MFA hoặc mã khôi phục vào nội dung summary.
     parameters:
       type: object
@@ -260,4 +289,3 @@ tools:
           type: string
           description: "Tên phần mềm hoặc ứng dụng cần tra cứu (ví dụ: 'Zoom', 'Docker Desktop', 'AnyDesk', 'Slack')."
       required: [software_name]
-
