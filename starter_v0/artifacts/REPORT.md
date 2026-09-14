@@ -20,8 +20,15 @@
 
 | Tool | Chức năng | Core / optional / team-built |
 |---|---|---|
-| clarify | Hỏi bổ sung hoặc xác nhận | core |
-|  |  |  |
+| clarify | Hỏi bổ sung thông tin còn thiếu (asset ID, employee ID) hoặc xin xác nhận (confirmation) trước khi thực hiện hành động nhạy cảm | core |
+| search_kb | Tìm kiếm hướng dẫn kỹ thuật, tài liệu khắc phục sự cố (how-to, troubleshooting) trong Knowledge Base nội bộ | core |
+| check_service_status | Kiểm tra trạng thái hoạt động (health/outage) của các dịch vụ dùng chung toàn công ty (VPN, Email, SSO, Wi-Fi, Printing) | core |
+| inspect_device | Tra cứu cấu hình và bản chụp chẩn đoán kỹ thuật (diagnostic snapshot) của một thiết bị cụ thể theo mã tài sản (asset ID) | core |
+| lookup_user | Tra cứu thông tin nhân sự trong danh bạ IT và danh sách thiết bị được cấp phát theo mã nhân viên (Employee ID) | core |
+| format_incident_report | Định dạng và tổng hợp các phát hiện kỹ thuật đã có thành báo cáo sự cố chuẩn Markdown | core |
+| policy | Tra cứu quy định, tiêu chuẩn và chính sách IT nội bộ công ty (truy cập, bảo mật dữ liệu, quy trình ticket,...) | optional (built-in) |
+| create_ticket | Tạo ticket hỗ trợ kỹ thuật trên hệ thống quản lý sự cố nội bộ (chỉ ghi khi đã được người dùng xác nhận) | optional (built-in) |
+| search_device_info | Tìm kiếm thông số kỹ thuật, driver hoặc trang hỗ trợ công khai của nhà sản xuất thiết bị trên Web qua Tavily Search | optional (built-in) |
 
 ## A3. Câu hỏi mẫu
 
