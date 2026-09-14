@@ -149,10 +149,10 @@ Sao chép mẫu dưới đây cho từng thành viên:
 ### Chử Trần Phương Nam — 2A202602675
 
 - **Vai trò/phần việc được nhận:** Tool & Schema Engineer (Người 2)
-- **Những gì tôi đã thay đổi trong repo chung:** Chuẩn hóa toàn bộ 9 tools trong tools.yaml (làm rõ mô tả ranh giới capabilities, bổ sung đầy đủ enum cho các tham số check, service, environment, policy_area, query_type; siết ranh giới bảo mật cho create_ticket và search_device_info); hoàn thành Mục A2 (Bảng 9 tools) trong REPORT.md.
-- **File hoặc artifact liên quan:** `starter_v0/artifacts/tools.yaml`, `starter_v0/artifacts/REPORT.md`
-- **Commit hash hoặc pull request:** `6890206` (nhánh `chutranphuongnam` đã merge vào `main`)
-- **Một quyết định kỹ thuật tôi đã đưa ra và lý do:** Phân định dứt khoát ranh giới giữa `check_service_status` (dịch vụ dùng chung toàn công ty) và `inspect_device` (thiết bị cá nhân) ngay trong tool description để mô hình không bị nhầm lẫn khi người dùng hỏi về sự cố mạng/VPN.
+- **Những gì tôi đã thay đổi trong repo chung:** Chuẩn hóa toàn bộ 9 tools trong tools.yaml (làm rõ mô tả ranh giới capabilities, bổ sung đầy đủ enum cho các tham số check, service, environment, policy_area, query_type; nới lỏng schema format report; siết ranh giới bảo mật cho create_ticket và search_device_info); xây dựng trọn vẹn Bonus Tool `lookup_approved_software` (gồm code python, TOOL.md, mock data software_catalog.json và đăng ký tools/__init__.py); hoàn thành Mục A2 (Bảng 10 tools) và Mục B5 trong REPORT.md; ghi nhận thực nghiệm v2 trong version_log.csv.
+- **File hoặc artifact liên quan:** `starter_v0/artifacts/tools.yaml`, `starter_v0/artifacts/REPORT.md`, `starter_v0/artifacts/version_log.csv`, `starter_v0/tools/lookup_approved_software/`, `starter_v0/helpdesk_data/software_catalog.json`, `starter_v0/tools/__init__.py`
+- **Commit hash hoặc pull request:** `41082de` (nhánh `chutranphuongnam`)
+- **Một quyết định kỹ thuật tôi đã đưa ra và lý do:** Phân định dứt khoát ranh giới giữa `check_service_status` (dịch vụ dùng chung toàn công ty) và `inspect_device` (thiết bị cá nhân) ngay trong tool description để mô hình không bị nhầm lẫn khi người dùng hỏi về sự cố mạng/VPN; đồng thời chọn phát triển `lookup_approved_software` làm bonus tool vì đây là nhu cầu kiểm soát an toàn phần mềm thiết thực nhất trong Helpdesk doanh nghiệp.
 - **Khó khăn tôi gặp và cách tôi xử lý:** Đảm bảo toàn bộ schema JSON và các tên enum trong `tools.yaml` khớp chính xác 100% với signature của các hàm Python trong thư mục `starter_v0/tools/` để evaluator không báo lỗi mismatch.
 - **Điều tôi học được từ phần việc này:** Hiểu rõ tool description và schema chính là một phần của prompt định hướng; mô tả càng chặt chẽ thì tỷ lệ chọn sai tool và sai tham số càng giảm rõ rệt.
 - **Nếu làm lại, tôi sẽ cải thiện điều gì:** Bổ sung thêm ví dụ minh họa (examples) cho các tham số dạng mảng phức tạp như `findings` trong tool `format_incident_report`.
