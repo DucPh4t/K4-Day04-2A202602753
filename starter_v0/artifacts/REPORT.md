@@ -94,9 +94,9 @@ nhóm tự xây.
 
 | Category | Evidence file | What worked | Risk / guardrail |
 |---|---|---|---|
-| Optional built-in |  |  |  |
-| External search + privacy boundary |  |  |  |
-| Bonus: tool mới do nhóm tự xây |  |  |  |
+| Optional built-in | `data/eval_helpdesk_extension.json` | `policy` tra cứu đúng chính sách nội bộ; `create_ticket` tạo ticket khi có xác nhận | Cấm ghi file nếu `confirmed: false`; từ chối summary chứa credentials/MFA |
+| External search + privacy boundary | `data/eval_helpdesk_extension.json` | `search_device_info` tìm kiếm thông số và driver công khai thành công qua Tavily API | Chặn đứng rò rỉ dữ liệu: Báo lỗi ngay nếu query chứa mã asset ID, employee ID hoặc hostname nội bộ |
+| Bonus: tool mới do nhóm tự xây | Không áp dụng (Nhóm tập trung tối ưu core và optional built-in) | Không áp dụng | Không áp dụng |
 
 ## B6. Safety review
 
@@ -108,7 +108,10 @@ nhóm tự xây.
 ## B7. Technical reflection
 
 - Fix nào thuộc `system_prompt.md`?
-- Fix nào thuộc `tools.yaml`?
+- **Fix thuộc `tools.yaml`:**
+  - Chuẩn hóa mô tả ranh giới phân định giữa dịch vụ dùng chung toàn công ty (`check_service_status`) và kiểm tra một tài sản cụ thể (`inspect_device`).
+  - Khai báo danh sách enum tường minh cho các trường tham số: `check`, `service`, `environment`, `category`, `policy_area`, `query_type`, `template`.
+  - Cài đặt ranh giới an toàn: Yêu cầu `confirmed: true` và cảnh báo không chứa secret trong `create_ticket`; nghiêm cấm truyền asset ID, employee ID hoặc hostname nội bộ ra ngoài web trong `search_device_info`.
 - Failure nào không thể chỉ nhìn automatic score?
 - Nếu có thêm một vòng, nhóm sẽ thử hypothesis nào?
 
@@ -142,16 +145,16 @@ có thể đối chiếu đóng góp.
 
 Sao chép mẫu dưới đây cho từng thành viên:
 
-### Họ tên — MSSV
+### Chử Trần Phương Nam — 2A202602675
 
-- **Vai trò/phần việc được nhận:**
-- **Những gì tôi đã thay đổi trong repo chung:**
-- **File hoặc artifact liên quan:**
-- **Commit hash hoặc pull request:**
-- **Một quyết định kỹ thuật tôi đã đưa ra và lý do:**
-- **Khó khăn tôi gặp và cách tôi xử lý:**
-- **Điều tôi học được từ phần việc này:**
-- **Nếu làm lại, tôi sẽ cải thiện điều gì:**
+- **Vai trò/phần việc được nhận:** Tool & Schema Engineer (Người 2)
+- **Những gì tôi đã thay đổi trong repo chung:** Chuẩn hóa toàn bộ 9 tools trong tools.yaml (làm rõ mô tả ranh giới capabilities, bổ sung đầy đủ enum cho các tham số check, service, environment, policy_area, query_type; siết ranh giới bảo mật cho create_ticket và search_device_info); hoàn thành Mục A2 (Bảng 9 tools) trong REPORT.md.
+- **File hoặc artifact liên quan:** `starter_v0/artifacts/tools.yaml`, `starter_v0/artifacts/REPORT.md`
+- **Commit hash hoặc pull request:** `6890206` (nhánh `chutranphuongnam` đã merge vào `main`)
+- **Một quyết định kỹ thuật tôi đã đưa ra và lý do:** Phân định dứt khoát ranh giới giữa `check_service_status` (dịch vụ dùng chung toàn công ty) và `inspect_device` (thiết bị cá nhân) ngay trong tool description để mô hình không bị nhầm lẫn khi người dùng hỏi về sự cố mạng/VPN.
+- **Khó khăn tôi gặp và cách tôi xử lý:** Đảm bảo toàn bộ schema JSON và các tên enum trong `tools.yaml` khớp chính xác 100% với signature của các hàm Python trong thư mục `starter_v0/tools/` để evaluator không báo lỗi mismatch.
+- **Điều tôi học được từ phần việc này:** Hiểu rõ tool description và schema chính là một phần của prompt định hướng; mô tả càng chặt chẽ thì tỷ lệ chọn sai tool và sai tham số càng giảm rõ rệt.
+- **Nếu làm lại, tôi sẽ cải thiện điều gì:** Bổ sung thêm ví dụ minh họa (examples) cho các tham số dạng mảng phức tạp như `findings` trong tool `format_incident_report`.
 
 Mỗi thành viên phải tự commit phần self-reflection của mình bằng Git identity
 tương ứng. Reflection phải dẫn đến contribution artifact/commit đã nêu ở trên,
