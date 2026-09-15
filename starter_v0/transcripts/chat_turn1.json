@@ -1,0 +1,64 @@
+{
+  "transcript_id": "chat_turn1",
+  "version": "v3",
+  "artifact_version": "v3+p26b90030ee27+t84bacc154090",
+  "prompt_hash": "26b90030ee271ebfe67a27c847ad4bf94b01f689318f3a475bf8bc7c4feb55a0",
+  "tools_hash": "84bacc154090e45ad4613b9f1e07adfb99e15bd7ec8dd9dc35ebb3dafd64c03c",
+  "provider": "openai",
+  "model": "gpt-4o-mini",
+  "turns": [
+    {
+      "turn_index": 1,
+      "user": "Mạng máy tính của tôi bị chậm quá",
+      "status": "waiting_for_user",
+      "assistant_text": "Vui lòng cung cấp mã tài sản (asset ID) của thiết bị mà bạn đang gặp sự cố mạng.",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "clarify",
+              "args": {
+                "question": "Vui lòng cung cấp mã tài sản (asset ID) của thiết bị mà bạn đang gặp sự cố mạng.",
+                "response_type": "text"
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "clarify",
+              "args": {
+                "question": "Vui lòng cung cấp mã tài sản (asset ID) của thiết bị mà bạn đang gặp sự cố mạng.",
+                "response_type": "text"
+              },
+              "result": {
+                "tool": "clarify",
+                "question": "Vui lòng cung cấp mã tài sản (asset ID) của thiết bị mà bạn đang gặp sự cố mạng.",
+                "response_type": "text",
+                "options": [],
+                "awaiting_user": true
+              }
+            }
+          ]
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "clarify",
+          "args": {
+            "question": "Vui lòng cung cấp mã tài sản (asset ID) của thiết bị mà bạn đang gặp sự cố mạng.",
+            "response_type": "text"
+          },
+          "result": {
+            "tool": "clarify",
+            "question": "Vui lòng cung cấp mã tài sản (asset ID) của thiết bị mà bạn đang gặp sự cố mạng.",
+            "response_type": "text",
+            "options": [],
+            "awaiting_user": true
+          }
+        }
+      ]
+    }
+  ]
+}
